@@ -1,11 +1,9 @@
 // import * as React from "react";
 
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -19,6 +17,8 @@ import { Label } from "@/components/ui/label";
 //   SelectValue,
 // } from "@/components/ui/select";
 import { TokenData } from "@/types/types";
+// import TokenChart from "./token-chart";
+import LineTokenChart from "./line-chart";
 
 interface Props {
   token: TokenData;
@@ -26,7 +26,7 @@ interface Props {
 
 export function TokenCard(props: Props) {
   return (
-    <Card className="w-[250px]">
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>{props.token.symbol}</CardTitle>
         <CardDescription>$ {props.token.price.toFixed(5)} </CardDescription>
@@ -61,6 +61,7 @@ export function TokenCard(props: Props) {
             </Label>
           </div>
         </div>
+        <LineTokenChart data={props.token} />
       </CardContent>
     </Card>
   );

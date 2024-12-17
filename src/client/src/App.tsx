@@ -1,6 +1,7 @@
 import { services } from "./services/services";
 import { useTokenData } from "./store/store";
 import { TokenCard } from "./components/token-card";
+import { ThemeProvider } from "./components/theme-provider";
 
 function App() {
   const { tokens, transactions, actions } = useTokenData();
@@ -21,13 +22,15 @@ function App() {
   });
 
   return (
-    <div className="grid w-screen h-screen items-center justify-center align-middle bg-red ">
-      <div className="flex flex-wrap justify-center gap-2">
-        {Object.values(tokens).map((t) => (
-          <TokenCard key={t.symbol} token={t} />
-        ))}
+    <ThemeProvider defaultTheme="dark">
+      <div className="grid w-screen h-screen items-center justify-center align-middle bg-red">
+        <div className="flex flex-wrap justify-center gap-2">
+          {Object.values(tokens).map((t) => (
+            <TokenCard key={t.symbol} token={t} />
+          ))}
+        </div>
       </div>
-    </div>
+    </ThemeProvider>
   );
 }
 
