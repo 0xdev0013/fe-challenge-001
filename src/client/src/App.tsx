@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { Button } from "./components/ui/button";
+import { useTokenData } from "./hooks/useTokenData";
 
 function App() {
+  const { token, tokens, transactions } = useTokenData();
+  console.log(tokens);
   const [count, setCount] = useState(0);
 
   return (
@@ -11,6 +14,11 @@ function App() {
       <Button onClick={() => setCount(count + 1)} variant={"default"}>
         Click me
       </Button>
+      <div className="flex">
+        {token && <div>{token.symbol}</div>}
+        {tokens && <div>{tokens.map((t) => t.symbol)}</div>}
+        {transactions && <div>{transactions.map((t) => t.hash)}</div>}
+      </div>
     </div>
   );
 }
