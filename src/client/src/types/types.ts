@@ -21,22 +21,16 @@ export interface MempoolTransaction {
 
 export interface Data {
   token: TokenData | undefined;
-  tokens: TokenData[];
+  tokens: Record<string, TokenData>;
   transactions: MempoolTransaction[];
-}
-
-export interface DataAction {
-  fetchTokenBySymbol: (symbol: string) => Promise<TokenData>;
-  fetchTokens: () => Promise<TokenData[]>;
-  fetchTransactions: () => Promise<MempoolTransaction[]>;
 }
 
 export interface DataStateAction {
   setToken: (token: TokenData) => void;
-  setTokens: (tokens: TokenData[]) => void;
+  setTokens: (tokens: Record<string, TokenData>) => void;
   setTransactions: (transactions: MempoolTransaction[]) => void;
 }
 
 export interface State extends Data {
-  actions: DataAction & DataStateAction;
+  actions: DataStateAction;
 }

@@ -124,3 +124,5 @@ export const startServer = (port: number = DEFAULT_PORT) => {
 };
 
 export default startServer;
+
+startServer(3000);

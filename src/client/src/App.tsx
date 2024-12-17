@@ -1,23 +1,31 @@
-import { useState } from "react";
-import { Button } from "./components/ui/button";
-import { useTokenData } from "./hooks/useTokenData";
+import { services } from "./services/services";
+import { useTokenData } from "./store/store";
+import { TokenCard } from "./components/token-card";
 
 function App() {
-  const { token, tokens, transactions } = useTokenData();
-  console.log(tokens);
-  const [count, setCount] = useState(0);
+  const { tokens, transactions, actions } = useTokenData();
+
+  services.subscribetoTransactions((transaction) => {
+    // get the new tx array then push the old one
+    // need to prevent duplcated transaction.hash
+    if (!transactions.find((t) => t.hash === transaction.hash)) {
+      transactions.push(transaction);
+    }
+    actions.setTransactions(transactions);
+  });
+
+  services.subscribeToTokenUpdate((token) => {
+    // push the updated value of token to the tokens object
+    tokens[token.symbol] = token;
+    actions.setToken(token);
+  });
 
   return (
-    <div className="flex w-screen h-screen items-center justify-center align-middle bg-red">
-      <div className="flex">Hello Mom</div>
-      <div>{count}</div>
-      <Button onClick={() => setCount(count + 1)} variant={"default"}>
-        Click me
-      </Button>
-      <div className="flex">
-        {token && <div>{token.symbol}</div>}
-        {tokens && <div>{tokens.map((t) => t.symbol)}</div>}
-        {transactions && <div>{transactions.map((t) => t.hash)}</div>}
+    <div className="grid w-screen h-screen items-center justify-center align-middle bg-red ">
+      <div className="flex flex-wrap justify-center gap-2">
+        {Object.values(tokens).map((t) => (
+          <TokenCard key={t.symbol} token={t} />
+        ))}
       </div>
     </div>
   );

@@ -1,33 +1,20 @@
-import { services } from "@/services/services";
 import { State, TokenData } from "@/types/types";
 import createSelectors from "@/utils/selector";
 import { create } from "zustand";
 
 const initialState = {
   token: undefined,
-  tokens: [],
+  tokens: {},
   transactions: [],
 };
 
 export const store = create<State>((set) => ({
   ...initialState,
   actions: {
-    fetchTokenBySymbol: async (symbol: string) => {
-      const token = await services.fetchTokenBySymbol(symbol);
-      return token;
-    },
-    fetchTokens: async () => {
-      const tokens = await services.fetchTokens();
-      return tokens;
-    },
-    fetchTransactions: async () => {
-      const txs = await services.fetchTransactions();
-      return txs;
-    },
     setToken: (token: TokenData) => {
       set({ token: token });
     },
-    setTokens: (tokens: TokenData[]) => {
+    setTokens: (tokens: Record<string, TokenData>) => {
       set({ tokens: tokens });
     },
     setTransactions: (transactions: any) => {
@@ -38,7 +25,7 @@ export const store = create<State>((set) => ({
 
 export const stateSelector = createSelectors(store);
 
-export function useStore() {
+export function useTokenData() {
   return {
     token: stateSelector.use.token(),
     tokens: stateSelector.use.tokens(),
