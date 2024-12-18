@@ -6,6 +6,7 @@ const initialState = {
   token: undefined,
   tokens: {},
   transactions: [],
+  selectedToken: undefined,
 };
 
 export const store = create<State>((set) => ({
@@ -20,6 +21,9 @@ export const store = create<State>((set) => ({
     setTransactions: (transactions: any) => {
       set({ transactions: transactions });
     },
+    setSelectedToken: (token: TokenData) => {
+      set({ selectedToken: token });
+    },
   },
 }));
 
@@ -27,6 +31,7 @@ export const stateSelector = createSelectors(store);
 
 export function useTokenData() {
   return {
+    selectedToken: stateSelector.use.selectedToken(),
     token: stateSelector.use.token(),
     tokens: stateSelector.use.tokens(),
     transactions: stateSelector.use.transactions(),
